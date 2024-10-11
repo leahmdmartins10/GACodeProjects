@@ -41,6 +41,29 @@ class TicTacToe {
     ];
     this.size = 3; // this is the size of the board
     this.rowCounts = {
+      X: [0, 0, 0],
+      O: [0, 0, 0],
+    };
+    this.colCounts = {
+      X: [0, 0, 0],
+      O: [0, 0, 0],
+    };
+
+    this.LRDiag = { X: 0, O: 0 };
+    this.RLDiag = { X: 0, O: 0 };
+
+    this.player1 = player1;
+    this.player2 = player2;
+    this.currentPlayer = player1; // we'll start with player 1, they're automatically X
+
+    placePiece(row, col){
+      const player = this.currentPlayer;
+      if(player.placePiece(row, col, this.board)){
+        this.updateCounters(row, col, player.theirCharacter);
+      }
+    }
+
+    updateCounters(row, col, char){
       
     }
   }
