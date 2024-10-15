@@ -1,5 +1,6 @@
 // this is a game of tictactoe
 
+/* ---------------- This sets up the inputs ---------------------- */
 const readline = require("readline");
 
 // Setup for reading user input from the console
@@ -14,7 +15,11 @@ class Player {
     this.theirCharacter = theirCharacter;
     this.theirTurn = theirTurn;
   }
-  placePiece(row, columnm, board) {
+  placePiece(row, column, board) {
+    if (row >= this.size || row < 0 || column < 0 || column >= this.size) {
+      console.log("That spot is not in bounds of the board. Try again.\n");
+      return false;
+    }
     if (board[row][column] === "-") {
       board[row][column] = this.theirCharacter;
       console.log(
@@ -24,9 +29,10 @@ class Player {
         " ",
         column
       );
+      console.log("\n");
       return true;
     } else {
-      console.log("That spot is already taken. Try again.");
+      console.log("That spot is already taken. Try again. \n");
       return false;
     }
   }
@@ -60,17 +66,20 @@ class TicTacToe {
     const player = this.currentPlayer;
     if (player.placePiece(row, col, this.board)) {
       this.updateCounters(row, col, player.theirCharacter);
-      if (this.checkWin(row, col, player.char)) {
-        console.log(`${player.playerName} wins!`);
-        this.displayBoard();
+      if (this.checkWin(row, col, player.theirCharacter)) {
+        setTimeout(() => {
+          console.log(`${player.playerName} wins!`);
+          this.displayBoard();
+        }, 2000); // 2000 milliseconds = 2 seconds
+
         rl.close();
         return true;
       }
 
-      if (this.currentPlayer === player1) {
-        this.currentPlayer = player2;
+      if (player === this.player1) {
+        this.currentPlayer = this.player2;
       } else {
-        this.currentPlayer = player1;
+        this.currentPlayer = this.player1;
       }
     }
     return false;
@@ -101,13 +110,19 @@ class TicTacToe {
     for (let row = 0; row < this.size; row++) {
       console.log(this.board[row].join(" "));
     }
+    console.log("\n");
   }
 }
+
+
+// main gameplay
 
 rl.question("What is player one's name: ", function (playerOneName) {
   rl.question("What is player two's name: ", function (playerTwoName) {
     let player1 = new Player(playerOneName, "X", true);
     let player2 = new Player(playerTwoName, "O", false);
+
+    console.log("\n");
 
     // this is printing all the data we just got from the user
     console.log(
@@ -123,12 +138,14 @@ rl.question("What is player one's name: ", function (playerOneName) {
       player2.theirCharacter
     );
 
+    console.log("\n");
+
     const game = new TicTacToe(player1, player2);
     game.displayBoard();
 
     function gameLoop() {
       rl.question(
-        `${game.currentPlayer.playerName} please enter a row and column (e.g., 1 2) that you would like to place a piece in.`,
+        `${game.currentPlayer.playerName} please enter a row and column (e.g., 1 2) that you would like to place a piece in. `,
         function (input) {
           const [row, col] = input.split(" ").map(Number);
           if (game.placePiece(row, col)) {
@@ -139,5 +156,6 @@ rl.question("What is player one's name: ", function (playerOneName) {
         }
       );
     }
+    gameLoop();
   });
 });
