@@ -64,60 +64,35 @@ class TicTacToe {
     }
 
     updateCounters(row, col, char){
-      
+      this.rowCounts[char][row]++;
+      this.colCounts[char][col]++;
+      if(row === col){
+        this.LRDiag[char]++;
+      }
+      if(row + col == this.size - 1){
+        this.RLDiag[char]++;
+      }
+    }
+
+    checkWin(row, col, char){
+      return (
+        this.rowCounts[char][row] === this.size ||
+        this.colCounts[char][col] == this.size ||
+        this.LRDiag[char] === this.size ||
+        this.RLDiag[char] === this.size
+      )
     }
   }
 }
 
-// // initialization of everyting
-// let board =
+rl.question("What is player one's name: ", function(playerOneName){
+  rl.question("What is player two's name: ", function(playerTwoName){
+    let player1 = new Player(playerOneName, 'X', true);
+    let player2 = new Player(playerTwoName, 'O', false);
 
-// let player1, player2;
+    console.log("Player 1's name is: ", player1.playerName, " and their piece is: ", player1.theirCharacter);
+    console.log("Player 2's name is: ", player2.playerName, " and their piece is: ", player2.theirCharacter);
 
-// function displayBoard(board){
-//   console.log("The current board looks like:\n");
-//   for (let row = 0; row < 3; row++) {
-//     console.log(board[row].join(" ")); // Print the board with each row on a new line
-//   }
-//   console.log("\n");
-// }
-
-// function startGame(){
-//   rl.question("What is player one's name: ", function (playerOneName) {
-//     rl.question("What is player two's name: ", function (playerTwoName) {
-//       player1 = new Player(playerOneName, "X", true);
-//       player2 = new Player(playerTwoName, "O", false);
-
-//       console.log("Player 1: ", player1);
-//       console.log("Player 2: ", player2);
-
-//       displayBoard(board);
-//       gamePlay(player1);
-//       // Closing the input interface
-//       rl.close();
-//     });
-//   });
-// }
-
-// function gamePlay(currentPlayer) {
-//   displayBoard(board);
-
-//   rl.question(`${currentPlayer.playerName}, enter your move as a row,column: `, function(move){
-//     const [row, column] = move.split(",").map(Number);
-//     currentPlayer.placePiece(row, column, board);
-//   })
-// }
-
-// function winCheckLogic(board, gameOver){
-//   let count = 0;
-//   for(let row = 0; row < 3; row++){
-//     for(let col = 0; col < 3; col++){
-
-//     }
-//   }
-// }
-
-// while (!endGame) {
-//   console.log
-//   gamePlay();
-// }
+    
+  });
+});
