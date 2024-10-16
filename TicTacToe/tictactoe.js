@@ -39,7 +39,11 @@ class Player {
 }
 
 class TicTacToe {
-  constructor(player1, player2) {
+  constructor(player1, player2, gameLoop) {
+    this.init(player1, player2);
+    this.gameLoop = gameLoop;
+  }
+  init(player1, player2) {
     this.board = [
       ["-", "-", "-"],
       ["-", "-", "-"],
@@ -62,6 +66,12 @@ class TicTacToe {
     this.player2 = player2;
     this.currentPlayer = player1; // we'll start with player 1, they're automatically X
   }
+  reset() {
+    this.init(this.player1, this.player2);
+    console.log("Starting a new game!\n");
+    this.displayBoard();
+    this.gameLoop(); // Restart the game loop
+  }
   placePiece(row, col) {
     const player = this.currentPlayer;
     if (player.placePiece(row, col, this.board)) {
@@ -70,9 +80,9 @@ class TicTacToe {
         setTimeout(() => {
           console.log(`${player.playerName} wins!`);
           this.displayBoard();
+          this.promptNewGame();
         }, 2000); // 2000 milliseconds = 2 seconds
 
-        rl.close();
         return true;
       }
 
@@ -83,6 +93,16 @@ class TicTacToe {
       }
     }
     return false;
+  }
+  promptNewGame() {
+    rl.question("Would you like to play again? (y/n) ", (answer) => {
+      if (answer.toLowerCase() === "y") {
+        this.reset();
+      } else {
+        console.log("Thanks for playing!");
+        rl.close();
+      }
+    });
   }
 
   updateCounters(row, col, char) {
@@ -116,47 +136,45 @@ class TicTacToe {
 
 // main gameplay
 
-  rl.question("What is player one's name: ", function (playerOneName) {
-    rl.question("What is player two's name: ", function (playerTwoName) {
-      let player1 = new Player(playerOneName, "X", true);
-      let player2 = new Player(playerTwoName, "O", false);
+rl.question("What is player one's name: ", function (playerOneName) {
+  rl.question("What is player two's name: ", function (playerTwoName) {
+    let player1 = new Player(playerOneName, "X", true);
+    let player2 = new Player(playerTwoName, "O", false);
 
-      console.log("\n");
+    console.log("\n");
 
-      // this is printing all the data we just got from the user
-      console.log(
-        "Player 1's name is: ",
-        player1.playerName,
-        " and their piece is: ",
-        player1.theirCharacter
-      );
-      console.log(
-        "Player 2's name is: ",
-        player2.playerName,
-        " and their piece is: ",
-        player2.theirCharacter
-      );
+    // this is printing all the data we just got from the user
+    console.log(
+      "Player 1's name is: ",
+      player1.playerName,
+      " and their piece is: ",
+      player1.theirCharacter
+    );
+    console.log(
+      "Player 2's name is: ",
+      player2.playerName,
+      " and their piece is: ",
+      player2.theirCharacter
+    );
 
-      console.log("\n");
+    console.log("\n");
 
-      const game = new TicTacToe(player1, player2);
-      game.displayBoard();
+    const game = new TicTacToe(player1, player2, gameLoop);
+    game.displayBoard();
 
-      function gameLoop() {
-        rl.question(
-          `${game.currentPlayer.playerName} please enter a row and column (e.g., 1 2) that you would like to place a piece in. `,
-          function (input) {
-            const [row, col] = input.split(" ").map(Number);
-            if (game.placePiece(row, col)) {
-              return;
-            }
-            game.displayBoard();
-            gameLoop();
+    function gameLoop() {
+      rl.question(
+        `${game.currentPlayer.playerName} please enter a row and column (e.g., 1 2) that you would like to place a piece in. `,
+        function (input) {
+          const [row, col] = input.split(" ").map(Number);
+          if (game.placePiece(row, col)) {
+            return;
           }
-        );
-      }
-      gameLoop();
-      
-    });
+          game.displayBoard();
+          gameLoop();
+        }
+      );
+    }
+    gameLoop();
   });
-
+});
