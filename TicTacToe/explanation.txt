@@ -1,0 +1,64 @@
+This code is a game of tic tac toe and this is the pseudo code for the game of tic tac toe
+
+The breakdown I used while making this game was:
+1. Initialize the board
+2. Initalize the players
+3. Draw the initial board for the players
+4. Get the player information
+    - Their names
+    - Their character
+    - Whether it's their turn or not
+5. Get the players' chocie for their pieces
+6. Check to see if their spots were valid
+7. Check to see if there was a possible win
+8. Decide the winner
+
+Classes will allow me to organize the code better and will group the varaibles and also the functions according to the class 
+
+More indepth pseudocode:
+
+Define the two classes:
+- Player
+- TicTacToe (the main game)
+
+PLAYER CLASS:
+- CONSTRUCTOR:
+    The Constructor will take in a playerName (string), theirCharacter (a character), and theirTurn (a boolean)
+    
+- METHOD: placePiece
+    The placePiece method will check to see if the row/column is in the range of the board and if it's not it will return a suitable response.
+    If the given row and column is available on the board it will then replace it with the respective player's character.
+     How do we know if the place is viable? The spot on the board IF it's viable will be holding the "-" character
+    If the given row and column is NOT available, it returns that the spot on the board is not available
+
+TICTACTOE CLASS:
+- CONSTRUCTOR:
+    The constructor will take in two players, initialize the board and the size of the board
+    WIN CHECKING SETUP:
+        Setting up all of the respective arrays for each row and column and diagonal
+        Each count (row count, col count, LR count, RL count) holds how many X's and O's are in each row/col/diagonal
+    The constructor also initializes the current player to Player one
+        THIS MEANS PLAYER ONE WILL ALWAYS GO FIRST
+
+- METHOD: placePiece
+    The placePiece method will check to see if the player's place piece function is true or false (if it's correctly placed or not)
+    If the piece is placed correctly it will then update the respective array counters with the count of that player's character
+    The placePiece function will also check to see if there is a potential win or not.
+    If there is a win then it will return true with a message
+    If not then the player will then change to the other player
+
+- METHOD: updateCounters
+    The updateCounters method will take in the row, col and char which will the nupdate the arrays we previously initialized that will indicate whether there was a win or not in a respective row/column.
+
+- METHOD: checkWin
+    The checkWin returns true if any of the arrays at any index equal to three
+
+- METHOD: displayBoard
+    Self explanatory
+
+MAIN GAME:
+The main game will ask the players to enter their names
+Then their information is printed into the terminal
+The main game will then initialize a new game of TicTacToe passing in the two players.
+It also then displays the board and then enters a gameloop function which is recursive.
+It recursively asks the player to enter a row and column and then will return out of the if statement and then the function when the game finishes.

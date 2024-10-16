@@ -16,7 +16,7 @@ class Player {
     this.theirTurn = theirTurn;
   }
   placePiece(row, column, board) {
-    if (row >= this.size || row < 0 || column < 0 || column >= this.size) {
+    if (row >= 3 || row < 0 || column < 0 || column >= 3) {
       console.log("That spot is not in bounds of the board. Try again.\n");
       return false;
     }
@@ -114,48 +114,49 @@ class TicTacToe {
   }
 }
 
-
 // main gameplay
 
-rl.question("What is player one's name: ", function (playerOneName) {
-  rl.question("What is player two's name: ", function (playerTwoName) {
-    let player1 = new Player(playerOneName, "X", true);
-    let player2 = new Player(playerTwoName, "O", false);
+  rl.question("What is player one's name: ", function (playerOneName) {
+    rl.question("What is player two's name: ", function (playerTwoName) {
+      let player1 = new Player(playerOneName, "X", true);
+      let player2 = new Player(playerTwoName, "O", false);
 
-    console.log("\n");
+      console.log("\n");
 
-    // this is printing all the data we just got from the user
-    console.log(
-      "Player 1's name is: ",
-      player1.playerName,
-      " and their piece is: ",
-      player1.theirCharacter
-    );
-    console.log(
-      "Player 2's name is: ",
-      player2.playerName,
-      " and their piece is: ",
-      player2.theirCharacter
-    );
-
-    console.log("\n");
-
-    const game = new TicTacToe(player1, player2);
-    game.displayBoard();
-
-    function gameLoop() {
-      rl.question(
-        `${game.currentPlayer.playerName} please enter a row and column (e.g., 1 2) that you would like to place a piece in. `,
-        function (input) {
-          const [row, col] = input.split(" ").map(Number);
-          if (game.placePiece(row, col)) {
-            return;
-          }
-          game.displayBoard();
-          gameLoop();
-        }
+      // this is printing all the data we just got from the user
+      console.log(
+        "Player 1's name is: ",
+        player1.playerName,
+        " and their piece is: ",
+        player1.theirCharacter
       );
-    }
-    gameLoop();
+      console.log(
+        "Player 2's name is: ",
+        player2.playerName,
+        " and their piece is: ",
+        player2.theirCharacter
+      );
+
+      console.log("\n");
+
+      const game = new TicTacToe(player1, player2);
+      game.displayBoard();
+
+      function gameLoop() {
+        rl.question(
+          `${game.currentPlayer.playerName} please enter a row and column (e.g., 1 2) that you would like to place a piece in. `,
+          function (input) {
+            const [row, col] = input.split(" ").map(Number);
+            if (game.placePiece(row, col)) {
+              return;
+            }
+            game.displayBoard();
+            gameLoop();
+          }
+        );
+      }
+      gameLoop();
+      
+    });
   });
-});
+
