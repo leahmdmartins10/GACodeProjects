@@ -1,9 +1,15 @@
+* {
+    box-sizing: border-box;
+}
 h1{
-    color: fuchsia;
+    color: red;
     font-size: 32px;
+    border: 0.25rem dashed greenyellow; 
 }
 article{
     height: 4rem;
     width: 20rem;
-    border: 0.5rem solid orange;
+    border: 0.5rem solid whitesmoke;
+    padding: 0.5rem;
+    margin-top: 1rem;
 }
