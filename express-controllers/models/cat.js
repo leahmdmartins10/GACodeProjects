@@ -21,5 +21,10 @@ const cats = [
   
     getOne: function (id) {
       return cats.find((cat) => cat.id === parseInt(id));
+    },
+    create: function (newCat){
+      const id = cats[cats.length - 1].id + 1;
+      newCat.id = id;
+      cats.push(newCat);
     }
    };  

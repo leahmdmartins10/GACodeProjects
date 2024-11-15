@@ -7,6 +7,7 @@ const catsCtrl = require('../controllers/cats');
 // these paths are all prefixed with /cats
 router.get('/', catsCtrl.getCats);
 router.get('/:id', catsCtrl.show);
+router.post('/', catsCtrl.create);
 
 
 module.exports = router;
