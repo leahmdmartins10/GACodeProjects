@@ -8,6 +8,7 @@ window.onload = getBreeds;
 
 // Add a click event listener to the button
 button.addEventListener('click', async function() {
+    if(breedSelect.value === "") return;
     // Get the selected breed from the dropdown
     let breed = breedSelect.value;
     // Construct the URL for fetching a random dog image of the selected breed
@@ -22,6 +23,10 @@ button.addEventListener('click', async function() {
     imageDiv.innerHTML = `<img src="${dogPic.message}">`;
 })
 
+breedSelect.addEventListener('change', async function() {
+    button.disabled = false;
+})
+
 // Function to fetch and populate the breed list
 async function getBreeds(){
     // Fetch the list of all breeds
@@ -33,7 +38,7 @@ async function getBreeds(){
     breeds.forEach((breed) => {
         const option = document.createElement('option');
         option.value = breed;
-        option.innerText = breed;
+        option.innerText = breed.charAt(0).toUpperCase() + breed.slice(1);
         breedSelect.appendChild(option);
     })
 }
