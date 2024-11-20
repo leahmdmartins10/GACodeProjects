@@ -7,17 +7,17 @@ module.exports = {
 
 const Cat = require('../models/cat.js');
 
-function getCats(req, res) {
-    const cats = Cat.getAll();
+async function getCats(req, res) {
+    const cats = await Cat.find();
     res.json(cats);
 }
 
-function show(req, res) {
-    const cat = Cat.getOne(req.params.id) || {message: "No cat found"};
+async function show(req, res) {
+    const cat = await Cat.findOne(req.params.name);
     res.json(cat);
 }
 
-function create(req, res) {
-    Cat.create(req.body);
-    res.send(`New Cat Created: ${cat.name}`);
+async function create(req, res) {
+    const cat = await Cat.create(req.body);
+    res.json(cat);
 }

@@ -2,7 +2,11 @@
 const express = require('express');
 const cors = require('cors');
 const logger = require('morgan');
+
 const catsRouter = require('./routes/cats');
+
+require('dotenv').config();
+require('./config/database');
 
 // configure our express application
 const PORT = process.env.PORT || 3000;
